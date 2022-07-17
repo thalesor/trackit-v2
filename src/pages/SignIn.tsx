@@ -3,6 +3,7 @@ import { Container, Card, Spacer, Input, Button, Link, Loading } from "@nextui-o
 import React, { useEffect, useState } from "react";
 import Form from 'components/Form';
 import { Router, useRouter } from 'next/router';
+import useMessage from '../../hooks/useMessage';
 
 const SignIn: NextPage = () => {
 
@@ -11,19 +12,9 @@ const SignIn: NextPage = () => {
     password: string
   }
 
-  const [apiLoading, setApiLoading] = useState<Boolean>(false);
+  const [formSubmiting, setFormSubmiting] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    async function fetchImage()
-    {
-      const response = await fetch('https://source.unsplash.com/1400x900/?clouds');
-      const blob = await response.blob();
-      console.log(response);
-    }
-    fetchImage();
-  },[])
-
+  const { setMessage } = useMessage();
   const [formData, setFormData] = useState<IFormDataProps>({
     email: '',
     password: ''
@@ -33,6 +24,22 @@ const SignIn: NextPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
   
+  async function handleSubmit(e: React.FormEvent) 
+  {
+    e.preventDefault();
+    setFormSubmiting(true);
+    try
+    {
+        const promise = await api.login(formData);
+        //login(promise.data);
+    }
+    catch(err)
+    {
+        setMessage({});
+        setFormSubmiting(false);
+    }
+  }
+
   const styles = {
     display: 'flex',
     alignItems:'center', 
@@ -44,14 +51,14 @@ const SignIn: NextPage = () => {
   return (
     <div style={styles}>
     <Card isHoverable css={{ maxWidth: 325, padding:'20px 0' }}>
-      {apiLoading 
+      {formSubmiting 
       ?
       <Container display='flex' justify='center' css={{height: '320px'}}>
         <Loading type="points" loadingCss={{ $$loadingSize: "30px", $$loadingBorder: "10px" }} />
       </Container>
       :
       <>
-      <Form onSubmit={()=> setApiLoading(true)}>
+      <Form onSubmit={(e)=> handleSubmit(e)}>
       <Card.Body css={{padding: 30}}>
       <Input 
           css={{width: '100%'}}
@@ -84,7 +91,7 @@ const SignIn: NextPage = () => {
         Entrar
       </Button>
       <Spacer y={1} />
-      <Link block color="primary" css={{width: '100%', display: 'flex', justifyContent:'center'}}  onClick={() => router.replace('/signup')}>
+      <Link block color="primary" css={{width: '100%', display: 'flex', justifyContent:'center'}}  onClick={() => router.push('/signup')}>
         Não tem uma conta? Cadastre-se!
       </Link>
       </Card.Footer>

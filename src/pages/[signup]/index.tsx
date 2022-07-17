@@ -1,21 +1,20 @@
 import type { NextPage } from 'next'
-import { Container, Card, Spacer, Input, Button, Link, Loading} from "@nextui-org/react";
+import { Container, Card, Spacer, Input, Button, Link, Loading, Modal, Text, Row, Checkbox} from "@nextui-org/react";
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Form from 'components/Form';
 
 const SignUp: NextPage = () => {
 
-  const [apiLoading, setApiLoading] = useState<Boolean>(false);
+  const [apiLoading, setApiLoading] = useState(false);
   const router = useRouter();
+
   const styles = {
     display: 'flex',
     alignItems:'center', 
     justifyContent: 'center',
     height: '100vh',
-    width: '100%',
-    backgroundSize: 'cover',
-    background: 'url(https://source.unsplash.com/1400x900/?galaxy',
-    filter: apiLoading && 'blur(5px)'
+    width: '100%'
   }
 
   return (
@@ -28,6 +27,7 @@ const SignUp: NextPage = () => {
       </Container>
       :
       <>
+      <Form onSubmit={() => alert('submeteu-se')}>
       <Card.Body css={{padding: 30}}>
       <Input 
           css={{width: '100%'}}
@@ -62,7 +62,7 @@ const SignUp: NextPage = () => {
       </Card.Body>
       <Card.Divider />
       <Card.Footer css={{display: 'flex', flexDirection: 'column', padding: '25px'}}>
-      <Button shadow css={{width: '100%'}} auto ghost onClick={()=> setApiLoading(true)}>
+      <Button shadow css={{width: '100%'}} auto ghost >
         Cadastrar
       </Button>
       <Spacer y={1} />
@@ -70,6 +70,7 @@ const SignUp: NextPage = () => {
         Já tem uma conta? Faça login!
       </Link>
       </Card.Footer>
+      </Form>
       </>
     }
     </Card>

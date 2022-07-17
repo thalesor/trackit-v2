@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import Image from 'next/image';
 import { useState } from 'react';
 import Splash from 'components/Splash';
+import { MessageProvider } from '../../contexts/MessageContext';
 
 const imageLoader=({src})=>{
   return `https://source.unsplash.com/1400x900/?galaxy`;
@@ -15,6 +16,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
   <NextUIProvider>
+    <MessageProvider>
     <Image
     loader={imageLoader}
         src="https://source.unsplash.com/1400x900/?galaxy"
@@ -24,8 +26,10 @@ function App({ Component, pageProps }: AppProps) {
          placeholder="blur"
          onLoad={() => setAppLoaded(true)}
       />
-    {appLoaded ? <Component {...pageProps} />
+    {appLoaded ? 
+      <Component {...pageProps} />
     : <Splash/>}
+    </MessageProvider>
   </NextUIProvider>
   )
 }
