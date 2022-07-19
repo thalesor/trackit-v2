@@ -3,8 +3,11 @@ import { NextUIProvider } from '@nextui-org/react';
 import type { AppProps } from 'next/app';
 import Image from 'next/image';
 import { useState } from 'react';
+import Router from 'next/router';
 import Splash from 'components/Splash';
 import { MessageProvider } from '../../contexts/MessageContext';
+import { AuthProvider } from '../../contexts/AuthContext';
+import { AppProvider } from '../../contexts/AppContext';
 
 const imageLoader=({src})=>{
   return `https://source.unsplash.com/1400x900/?galaxy`;
@@ -14,9 +17,15 @@ function App({ Component, pageProps }: AppProps) {
 
   const [appLoaded, setAppLoaded] = useState(false);
 
+  Router.events.on('routeChangeStart', () => {
+    setAppLoaded(false);
+  });
+
   return (
   <NextUIProvider>
+    <AppProvider>
     <MessageProvider>
+    <AuthProvider>
     <Image
     loader={imageLoader}
         src="https://source.unsplash.com/1400x900/?galaxy"
@@ -26,10 +35,10 @@ function App({ Component, pageProps }: AppProps) {
          placeholder="blur"
          onLoad={() => setAppLoaded(true)}
       />
-    {appLoaded ? 
       <Component {...pageProps} />
-    : <Splash/>}
+    </AuthProvider>
     </MessageProvider>
+    </AppProvider>
   </NextUIProvider>
   )
 }

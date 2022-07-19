@@ -1,13 +1,27 @@
 import type { NextPage } from 'next'
 import { Container, Card, Spacer, Input, Button, Link, Loading, Modal, Text, Row, Checkbox} from "@nextui-org/react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import useApp from '../../../hooks/useApp';
 import Form from 'components/Form';
+import Splash from 'components/Splash';
+import useAuth from '../../../hooks/useAuth';
 
 const SignUp: NextPage = () => {
 
   const [apiLoading, setApiLoading] = useState(false);
+  const { authData } = useAuth();
+  const { appLoaded } = useApp();
   const router = useRouter();
+  const { setAppLoaded } = useApp();
+
+  useEffect(() =>
+  {
+    if(!authData)
+      setAppLoaded(true);
+    else
+      router.replace('/dashboard')
+  }, []);
 
   const styles = {
     display: 'flex',
@@ -17,7 +31,8 @@ const SignUp: NextPage = () => {
     width: '100%'
   }
 
-  return (
+  return  !appLoaded ? <Splash/>
+ : (
     <div style={styles}>
     <Card isHoverable css={{ maxWidth: 325, padding:'20px 0' }}>
       {apiLoading 

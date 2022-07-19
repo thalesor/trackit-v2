@@ -1,10 +1,13 @@
 import type { NextPage } from 'next';
-import api from '../../services/api/api';
+import api from '../../../services/api/api';
 import { Container, Card, Spacer, Input, Button, Link, Loading } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import Form from 'components/Form';
+import Splash from 'components/Splash';
 import { useRouter } from 'next/router';
-import useMessage from '../../hooks/useMessage';
+import useApp from '../../../hooks/useApp';
+import useAuth from '../../../hooks/useAuth';
+import useMessage from '../../../hooks/useMessage';
 
 const SignIn: NextPage = () => {
 
@@ -16,6 +19,17 @@ const SignIn: NextPage = () => {
   const [formSubmiting, setFormSubmiting] = useState(false);
   const router = useRouter();
   const { setMessage } = useMessage();
+  const { signIn, authData } = useAuth();
+  const { appLoaded, setAppLoaded } = useApp();
+
+  useEffect(() =>
+  {
+    if(!authData)
+      setAppLoaded(true);
+    else
+      router.push('/dashboard')
+  }, []);
+  
   const [formData, setFormData] = useState<IFormDataProps>({
     email: '',
     password: ''
@@ -24,6 +38,8 @@ const SignIn: NextPage = () => {
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
+
+
   
   async function handleSubmit(e: React.FormEvent) 
   {
@@ -31,13 +47,18 @@ const SignIn: NextPage = () => {
     setFormSubmiting(true);
     try
     {
-        const promise = await api.signIn(formData);
-        const { data } = promise;
+      const { data } = await api.signIn(formData);
+        
         setMessage({
           type: 'success',
-          message: `Bem-vindo ${data.name}` 
+          message: `Bem-vindo ${data.name}`,
+          closeHandler: () => router.replace('/')
         });
-        //login(promise.data);
+
+        delete data.password;
+        delete data.email;
+
+        signIn(data);
     }
     catch(err)
     {
@@ -60,7 +81,8 @@ const SignIn: NextPage = () => {
     width: '100%'
   }
 
-  return (
+  return  !appLoaded ? <Splash/>
+ : (
     <div style={styles}>
     <Card isHoverable css={{ maxWidth: 325, padding:'20px 0' }}>
       {formSubmiting 

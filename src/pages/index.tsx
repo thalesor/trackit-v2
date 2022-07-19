@@ -1,13 +1,13 @@
 import dynamic from 'next/dynamic'
 
-const SignInPage = dynamic(
-  () => import('../pages/SignIn'),
+const MainPage = dynamic(
+  () => import('../pages/MainApp'),
   { ssr: false }
 )
 
 function Home() {
   return (
-    <SignInPage/>
+    <MainPage/>
   )
 }
 
