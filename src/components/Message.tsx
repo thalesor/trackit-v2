@@ -2,12 +2,26 @@ import React from "react";
 import { Modal, Button, Text } from "@nextui-org/react";
 
 export interface IMessageProps {
-    closeHandler?: () => void,
-    cancelHandler?: () => void,
-    confirmHandler?: () => void
+    type: messageTypes;
+    message: string;
+    closeHandler?: () => void;
+    cancelHandler?: () => void;
+    confirmHandler?: () => void;
 }
 
-export default function Message({closeHandler, cancelHandler, confirmHandler}: IMessageProps) {
+type messageTypes = 'success' | 'error' | 'warning';
+
+function getTitle(type: messageTypes)
+{
+  if(type === 'error')
+    return "Ocorreu um erro!";
+  else if(type === 'success')
+    return "Tudo certo!";
+  
+    return "Aviso!";
+}
+
+export default function Message({type, message, closeHandler, cancelHandler, confirmHandler}: IMessageProps) {
   return (
       <Modal
         closeButton
@@ -18,14 +32,14 @@ export default function Message({closeHandler, cancelHandler, confirmHandler}: I
       >
         <Modal.Header>
           <Text b size={18} id="modal-title">
-            Ocorreu um erro!
+            {getTitle(type)}
           </Text>
         </Modal.Header>
         <Modal.Body>
-          Usuário e/ou senha estão inválidos
+          {message}
         </Modal.Body>
         <Modal.Footer>
-          <Button auto color="error" onClick={closeHandler}>
+          <Button auto color={type} onClick={closeHandler}>
             OK
           </Button>
         </Modal.Footer>

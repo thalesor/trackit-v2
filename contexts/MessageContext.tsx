@@ -22,7 +22,7 @@ export function MessageProvider({ children }: Props) {
   return (
     <MessageContext.Provider value={{message, setMessage}}>
       {children}
-      {message && <Message confirmHandler={message.confirmHandler} cancelHandler={message.cancelHandler} closeHandler={handleClose}/>}
+      {message && <Message type={message.type || 'error'} message={message.message || ''} confirmHandler={message.confirmHandler} cancelHandler={message.cancelHandler} closeHandler={handleClose}/>}
     </MessageContext.Provider>
   );
 }

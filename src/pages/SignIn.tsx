@@ -1,8 +1,9 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import api from '../../services/api/api';
 import { Container, Card, Spacer, Input, Button, Link, Loading } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import Form from 'components/Form';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import useMessage from '../../hooks/useMessage';
 
 const SignIn: NextPage = () => {
@@ -30,13 +31,24 @@ const SignIn: NextPage = () => {
     setFormSubmiting(true);
     try
     {
-        const promise = await api.login(formData);
+        const promise = await api.signIn(formData);
+        const { data } = promise;
+        setMessage({
+          type: 'success',
+          message: `Bem-vindo ${data.name}` 
+        });
         //login(promise.data);
     }
     catch(err)
     {
-        setMessage({});
-        setFormSubmiting(false);
+        setMessage({
+          type: 'error',
+          message: 'email e/ou senha inválidos!'
+        });
+    }
+    finally
+    {
+      setFormSubmiting(false);
     }
   }
 
