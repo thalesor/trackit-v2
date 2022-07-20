@@ -20,9 +20,6 @@ const MainApp: NextPage = () => {
     signOut();
   }
 
-  return (
-    <div>Carregando a página...</div>
-  );
 }
 
 export default MainApp;

@@ -33,6 +33,7 @@ function App({ Component, pageProps }: AppProps) {
         alt="Background image"
         layout='fill'
          placeholder="blur"
+         style={{zIndex: 0}}
          onLoad={() => setAppLoaded(true)}
       />
       <Component {...pageProps} />
