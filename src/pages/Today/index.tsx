@@ -8,6 +8,7 @@ import useApp from '../../../hooks/useApp';
 import useHabits from '../../../hooks/useHabits';
 import useMessage from '../../../hooks/useMessage';
 import TodayCard from 'components/TodayCard';
+import TodayProgress from 'components/TodayProgress';
 
 const Today: NextPage = () => {
 
@@ -34,7 +35,7 @@ const Today: NextPage = () => {
  : (
     <div style={styles}>
       <>
-        
+        <TodayProgress/>
         {todayHabitsList?.map((habit: todayHabitsType) => <TodayCard habit={habit}/>)}
       </>
     </div>
