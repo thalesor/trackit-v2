@@ -7,7 +7,7 @@ const MainPage = dynamic(
 
 function Home() {
   return (
-    <MainPage/>
+      <MainPage/>
   )
 }
 

@@ -2,27 +2,39 @@ import axios from "axios";
 
 const baseApi = axios.create({ baseURL: 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/'});
 
+interface IHabit {
+  id: number;
+  name: string;
+  days: number[];
+  done: boolean;
+  currentSequence: number;
+  highestSequence: number;
+}
+
+export type createHabitsType = Omit<IHabit, 'id' | 'done' | 'currentSequence' | 'highestSequence'>;
+export type todayHabitsType = Omit<IHabit, 'days'>;
+
 async function getTodayHabitsData(token: string)
 {
-  const responseObj = await baseApi.get(`/habits/today`, {
+  const { data } = await baseApi.get<{data: todayHabitsType[]}>(`/habits/today`, {
     headers: {
             "Authorization": `Bearer ${token}`
         }
     });
-    return responseObj;
+    return data;
 }
 
-async function getHabits(token: string)
+async function getHabitsData(token: string)
 {
-  const responseObj = await baseApi.get(`/habits`, {
+  const { data } = await baseApi.get<{data: createHabitsType[]}>(`/habits`, {
     headers: {
             "Authorization": `Bearer ${token}`
         }
     });
-    return responseObj;
+    return data;
 }
 
-type habitInstructionType = 'check' | 'uncheck';
+export type habitInstructionType = 'check' | 'uncheck';
 
 async function updateHabitStatus(token: string, id: number, instruction: habitInstructionType)
 {
@@ -52,17 +64,7 @@ async function signUp(data: IUser)
     return responseObj;
 } 
 
-interface IDay {
-    id: number,
-    name: string
-}
-
-interface IHabitData {
-    name: string,
-    days: IDay[]
-}
-
-async function postHabit(data: IHabitData, token: string)
+async function postHabit(data: createHabitsType, token: string)
 {
   const responseObj = await baseApi.post(`/habits`, data, {
     headers: {
@@ -84,9 +86,9 @@ async function deleteHabit(id: number, token: string)
 
 const api =  {
     getTodayHabitsData,
+    getHabitsData,
     signIn,
     signUp,
-    getHabits,
     deleteHabit,
     postHabit,
     updateHabitStatus

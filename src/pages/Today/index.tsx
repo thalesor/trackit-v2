@@ -1,43 +1,44 @@
 import type { NextPage } from 'next';
-import api from '../../../services/api/api';
-import React, { useEffect, useState } from "react";
-import Header from 'components/Header';
+
+import { todayHabitsType } from '../../../services/api/api';
+import React, { useEffect } from "react";
 import Splash from 'components/Splash';
 import { useRouter } from 'next/router';
 import useApp from '../../../hooks/useApp';
-import useAuth from '../../../hooks/useAuth';
+import useHabits from '../../../hooks/useHabits';
 import useMessage from '../../../hooks/useMessage';
-import Today from 'pages/Today';
+import TodayCard from 'components/TodayCard';
 
-const Dashboard: NextPage = () => {
+const Today: NextPage = () => {
 
   const router = useRouter();
   const { setMessage } = useMessage();
-  const { signIn, authData } = useAuth();
+  const { fetchTodayHabitsData, todayHabitsList } = useHabits();
   const { appLoaded, setAppLoaded } = useApp();
 
   useEffect(() =>
   {
-      setAppLoaded(true);
+    fetchTodayHabitsData()
   }, []);
   
-
   const styles = {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
-    width: '100%'
+    height: '100%',
+    width: '100%',
+    padding: 20,
+    gap: 10
   }
 
   return  !appLoaded ? <Splash/>
  : (
     <div style={styles}>
       <>
-        <Header/>
-        <Today/>
+        
+        {todayHabitsList?.map((habit: todayHabitsType) => <TodayCard habit={habit}/>)}
       </>
     </div>
   )
 }
 
-export default Dashboard;
+export default Today;

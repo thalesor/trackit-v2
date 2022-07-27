@@ -4,10 +4,10 @@ import type { AppProps } from 'next/app';
 import Image from 'next/image';
 import { useState } from 'react';
 import Router from 'next/router';
-import Splash from 'components/Splash';
 import { MessageProvider } from '../../contexts/MessageContext';
 import { AuthProvider } from '../../contexts/AuthContext';
 import { AppProvider } from '../../contexts/AppContext';
+import { HabitsProvider } from '../../contexts/HabitsContext';
 
 const imageLoader=({src})=>{
   return `https://source.unsplash.com/1400x900/?galaxy`;
@@ -26,6 +26,7 @@ function App({ Component, pageProps }: AppProps) {
     <AppProvider>
     <MessageProvider>
     <AuthProvider>
+    <HabitsProvider>
     <Image
     loader={imageLoader}
         src="https://source.unsplash.com/1400x900/?galaxy"
@@ -37,6 +38,7 @@ function App({ Component, pageProps }: AppProps) {
          onLoad={() => setAppLoaded(true)}
       />
       <Component {...pageProps} />
+      </HabitsProvider>
     </AuthProvider>
     </MessageProvider>
     </AppProvider>
