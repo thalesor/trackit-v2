@@ -7,12 +7,11 @@ import 'dayjs/locale/pt-br';
   export default function TodayProgress(){
     dayjs.locale('pt-br');
     const today = dayjs().format('dddd, DD/MM'); 
-    const { todayHabitsList }= useHabits();
+    const { todayHabitsList, getTodayProgressPercent }= useHabits();
 
     const calculateTodayProgress = () =>
     {
-        const done = todayHabitsList?.filter(habit => habit.done);
-        const percent = (Number(done?.length)/Number(todayHabitsList?.length))*100;
+        const percent = getTodayProgressPercent();
         if(percent > 0)
         return <h2>{percent}% dos hábitos foram concluídos!</h2>
 

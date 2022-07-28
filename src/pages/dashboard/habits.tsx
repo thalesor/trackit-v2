@@ -1,19 +1,15 @@
 import type { NextPage } from 'next';
-import api from '../../../services/api/api';
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from 'components/Header';
 import Splash from 'components/Splash';
-import { useRouter } from 'next/router';
 import useApp from '../../../hooks/useApp';
-import useAuth from '../../../hooks/useAuth';
-import useMessage from '../../../hooks/useMessage';
-import Today from 'pages/Today';
+import Today from 'pages/today';
+import Footer from 'components/Footer';
+import Habits from 'pages/habits';
 
 const Dashboard: NextPage = () => {
 
-  const router = useRouter();
-  const { setMessage } = useMessage();
-  const { signIn, authData } = useAuth();
+  
   const { appLoaded, setAppLoaded } = useApp();
 
   useEffect(() =>
@@ -26,7 +22,8 @@ const Dashboard: NextPage = () => {
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
-    width: '100%'
+    width: '100%',
+    overflowY: 'hidden'
   }
 
   return  !appLoaded ? <Splash/>
@@ -34,7 +31,8 @@ const Dashboard: NextPage = () => {
     <div style={styles}>
       <>
         <Header/>
-        <Today/>
+        <Habits/>
+        <Footer/>
       </>
     </div>
   )

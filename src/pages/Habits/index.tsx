@@ -12,15 +12,14 @@ const Habits: NextPage = () => {
 
   const router = useRouter();
   const { setMessage } = useMessage();
-  const { signIn, authData } = useAuth();
+  const { authData } = useAuth();
   const { appLoaded, setAppLoaded } = useApp();
   const [habitsList, setHabitsList] = useState<any[] | null>(null);
 
   async function fetchHabits()
   {
-    const habitsData = await api.getHabits(authData?.token as string);
-    await setHabitsList(habitsData.data);
-    console.log(habitsData.data);
+    const habitsData = await api.getHabitsData(authData?.token as string);
+    await setHabitsList(habitsData);
     setAppLoaded(true);
   }
 

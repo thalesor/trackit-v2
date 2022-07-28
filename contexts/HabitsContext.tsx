@@ -8,6 +8,7 @@ interface IHabitsContext {
     fetchHabitsData: () => void;
     fetchTodayHabitsData: () => void;
     toggleHabitsData: (id: number, instruction: habitInstructionType) => void;
+    getTodayProgressPercent: () => number;
 }
 
 export const HabitsContext = createContext<IHabitsContext | null>(null);
@@ -39,8 +40,15 @@ export function HabitsProvider({ children }: Props) {
     await fetchTodayHabitsData();
   }
 
+  function getTodayProgressPercent()
+  {
+    const done = todayHabitsList?.filter(habit => habit.done);
+    const percent = (Number(done?.length)/Number(todayHabitsList?.length))*100;
+    return percent;
+  }
+
   return (
-    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, toggleHabitsData}}>
+    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, toggleHabitsData, getTodayProgressPercent}}>
       {children}
     </HabitsContext.Provider>
   );
