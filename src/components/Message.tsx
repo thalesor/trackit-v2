@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button, Text } from "@nextui-org/react";
+import { Grid } from "@nextui-org/react";
 
 export interface IMessageProps {
     type: messageTypes;
@@ -9,7 +10,7 @@ export interface IMessageProps {
     confirmHandler?: () => void;
 }
 
-type messageTypes = 'success' | 'error' | 'warning';
+type messageTypes = 'success' | 'error' | 'warning' | 'confirm';
 
 function getTitle(type: messageTypes)
 {
@@ -39,9 +40,24 @@ export default function Message({type, message, closeHandler, cancelHandler, con
           {message}
         </Modal.Body>
         <Modal.Footer>
-          <Button auto color={type} onClick={closeHandler}>
+          {
+            type === 'confirm' ?
+            <Grid.Container css={{display: 'flex', flexDirection: 'column', gap: 8}}>
+              <Button auto color={type} onClick={() => {
+                closeHandler && closeHandler();
+                confirmHandler && confirmHandler();
+              }}>
+                Sim, tenho certeza
+              </Button>
+              <Button auto color={'error'} onClick={closeHandler}>
+                Não, por favor cancele
+              </Button>
+            </Grid.Container>
+            :
+            <Button auto color={type} onClick={closeHandler}>
             OK
           </Button>
+          }
         </Modal.Footer>
       </Modal>
   );

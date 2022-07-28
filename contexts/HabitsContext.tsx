@@ -7,6 +7,7 @@ interface IHabitsContext {
     todayHabitsList: null | todayHabitsType[];
     fetchHabitsData: () => void;
     fetchTodayHabitsData: () => void;
+    deleteHabit: (id: number) => void;
     toggleHabitsData: (id: number, instruction: habitInstructionType) => void;
     getTodayProgressPercent: () => number;
 }
@@ -40,6 +41,12 @@ export function HabitsProvider({ children }: Props) {
     await fetchTodayHabitsData();
   }
 
+  async function deleteHabit(id: number)
+  {
+    await api.deleteHabit(+id, authData?.token as string);
+    await fetchHabitsData();
+  }
+
   function getTodayProgressPercent()
   {
     const done = todayHabitsList?.filter(habit => habit.done);
@@ -48,7 +55,7 @@ export function HabitsProvider({ children }: Props) {
   }
 
   return (
-    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, toggleHabitsData, getTodayProgressPercent}}>
+    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, deleteHabit, toggleHabitsData, getTodayProgressPercent}}>
       {children}
     </HabitsContext.Provider>
   );

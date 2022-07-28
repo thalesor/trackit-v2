@@ -5,27 +5,18 @@ import Splash from 'components/Splash';
 import { useRouter } from 'next/router';
 import useApp from '../../../hooks/useApp';
 import useAuth from '../../../hooks/useAuth';
-import useMessage from '../../../hooks/useMessage';
 import HabitCard from 'components/HabitCard';
+import useHabits from '../../../hooks/useHabits';
 
 const Habits: NextPage = () => {
 
   const router = useRouter();
-  const { setMessage } = useMessage();
-  const { authData } = useAuth();
+  const { fetchHabitsData, habitsList }= useHabits();
   const { appLoaded, setAppLoaded } = useApp();
-  const [habitsList, setHabitsList] = useState<any[] | null>(null);
-
-  async function fetchHabits()
-  {
-    const habitsData = await api.getHabitsData(authData?.token as string);
-    await setHabitsList(habitsData);
-    setAppLoaded(true);
-  }
 
   useEffect(() =>
   {
-    fetchHabits();
+    fetchHabitsData();
   }, []);
   
   const styles = {

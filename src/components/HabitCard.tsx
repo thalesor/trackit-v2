@@ -1,10 +1,15 @@
 import { Card, Grid } from "@nextui-org/react";
 import styled from "styled-components";
 import DayBlock from "./DayBlock";
-import { BsCheckCircleFill } from "react-icons/bs";
+import { FaTrashAlt } from "react-icons/fa";
+import useMessage from "../../hooks/useMessage";
+import useHabits from "../../hooks/useHabits";
 
 export default function HabitCard({habit}: any) {
   const days = [1, 2, 3, 4, 5, 6, 7];
+
+  const { setMessage } = useMessage();
+  const { deleteHabit } = useHabits();
 
   return  (
   <Card css={{ padding: '15px', width: '100%', borderRadius: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}} color="primary" variant="bordered" isPressable>
@@ -14,9 +19,17 @@ export default function HabitCard({habit}: any) {
             {days.map((day: any) => <DayBlock number={day} fill={habit.days.includes(day)}/>)}
           </Grid.Container>
         </Grid.Container>
-        <div>
-          icone lixeira
-        </div>
+          <TrashIcon 
+            onClick={() => {
+              setMessage({
+                type: 'confirm',
+                message: `Tem certeza que deseja deletar ${habit.name}?`,
+                confirmHandler: () => {
+                  deleteHabit(habit.id);
+                }
+              });
+            }}
+          />
   </Card>
   )
 }
@@ -27,7 +40,7 @@ const HabitTitle = styled.h1`
   font-weight: 400px;
 `
 
-const Check = styled(BsCheckCircleFill)`
-  color: #E7E7E7;
-  font-size: 60px;
+const TrashIcon = styled(FaTrashAlt)`
+  color: #CFCFCF;
+  font-size: 30px;
 `
