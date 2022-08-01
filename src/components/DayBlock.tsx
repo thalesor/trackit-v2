@@ -1,28 +1,32 @@
 import styled from "styled-components";
+import { Tooltip } from '@nextui-org/react';
 
-type weekDayRange = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type weekDayRange = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 interface IDayBlockProps {
     number: weekDayRange;
+    onClick?: () => void;
     fill: boolean;
   }
 
   const daysModel = {
-    1 : 'S',
-    2 : 'T',
-    3 : 'Q',
-    4 : 'Q',
-    5 : 'S',
-    6 : 'S',
-    7 : 'D'
+    1 : 'Segunda',
+    2 : 'Terça',
+    3 : 'Quarta',
+    4 : 'Quinta',
+    5 : 'Sexta',
+    6 : 'Sábado',
+    7 : 'Domingo'
   }
   
-  export default function DayBlock({ number, fill }: IDayBlockProps){
+  export default function DayBlock({ number, fill, onClick }: IDayBlockProps){
   
     return (
-        <Block number={number} fill={fill}>
-            <span>{daysModel[number]}</span>
+      <Tooltip content={daysModel[number]} color={"invert"}>
+          <Block onClick={onClick} number={number} fill={fill}>
+            <span>{daysModel[number].charAt(0)}</span>
         </Block>
+        </Tooltip>
     )
   }
 

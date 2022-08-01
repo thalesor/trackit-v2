@@ -27,7 +27,7 @@ import 'dayjs/locale/pt-br';
   }
 
   const StyledCard = styled(Card)`
-    background: #16181a;
+    background: rgba(0, 0, 0, 0.5);
     padding: 15px;
     display: flex;
     flex-direction: column;

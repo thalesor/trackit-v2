@@ -38,7 +38,7 @@ export default function TodayCard({habit}: ITodayCardProps) {
   </Card>
   )
 }
-749
+
 const HabitTitle = styled.h1`
   font-size: 20px;
   color: #666666;

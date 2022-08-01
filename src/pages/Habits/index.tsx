@@ -1,23 +1,32 @@
 import type { NextPage } from 'next';
-import api from '../../../services/api/api';
+import HabitsForm from 'components/HabitsForm';
+import { Button } from '@nextui-org/react';
 import React, { useEffect, useState } from "react";
 import Splash from 'components/Splash';
-import { useRouter } from 'next/router';
 import useApp from '../../../hooks/useApp';
-import useAuth from '../../../hooks/useAuth';
 import HabitCard from 'components/HabitCard';
 import useHabits from '../../../hooks/useHabits';
 
 const Habits: NextPage = () => {
 
-  const router = useRouter();
   const { fetchHabitsData, habitsList }= useHabits();
   const { appLoaded, setAppLoaded } = useApp();
+  const [formVisible, setFormVisible] = useState(false);
 
   useEffect(() =>
   {
     fetchHabitsData();
   }, []);
+
+  const toggleForm = () =>
+  {
+    if(formVisible)
+    {
+      setFormVisible(false);
+      return;
+    }
+    setFormVisible(true);
+  }
   
   const styles = {
     display: 'flex',
@@ -32,6 +41,10 @@ const Habits: NextPage = () => {
  : (
     <div style={styles}>
       <>
+      <Button onClick={() => toggleForm()} css={{width: 0, alignSelf: 'flex-end'}} shadow color="gradient">
+        Adicionar +
+        </Button>
+        {formVisible && <HabitsForm setFormVisible={setFormVisible}/>}
         {habitsList?.map((habit): any => <HabitCard habit={habit}/>)}
       </>
     </div>
