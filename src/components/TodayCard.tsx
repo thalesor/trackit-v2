@@ -26,7 +26,7 @@ export default function TodayCard({habit}: ITodayCardProps) {
   }
 
   return  (
-  <Card onClick={() => handleCheck(habit.id, habit.done ? 'uncheck' : 'check')} css={{ padding: '15px', width: '100%', borderRadius: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}} color="primary" variant="bordered" isPressable>
+  <Card onClick={() => handleCheck(habit.id, habit.done ? 'uncheck' : 'check')} css={{ padding: '15px', width: '100%', borderRadius: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0}} color="primary" variant="bordered" isPressable>
         <Container css={{display: 'flex', flexDirection: 'column'}}>
         <HabitTitle>{habit.name}</HabitTitle>
           <Legend done={currentSequence > 1}> Sequência atual:<span>  {currentSequence}</span></Legend>

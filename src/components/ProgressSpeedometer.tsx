@@ -13,7 +13,7 @@ export default function SpeedometerComponent() {
   const router = useRouter();
 
   return (
-    <div onClick={() => router.push('/dashboard/today')} style={{background: 'gray', width: 200, height: 200, borderRadius: '60%', cursor: ' pointer'}}>
+    <div onClick={() => router.push('/dashboard/today')} style={{background: 'gray', width: 170, height: 170, borderRadius: '60%', cursor: ' pointer'}}>
     <Speedometer
       fluidWidth
       needleHeightRatio={0.7}
@@ -50,7 +50,7 @@ export default function SpeedometerComponent() {
           color: '#555',
         },
       ]}
-      ringWidth={50}
+      ringWidth={30}
       needleTransitionDuration={3333}
       needleTransition="easeElastic"
       needleColor={'#fff'}

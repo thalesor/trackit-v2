@@ -33,6 +33,7 @@ const Habits: NextPage = () => {
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+    overflow: 'scroll',
     padding: 20,
     gap: 10
   }
@@ -41,8 +42,8 @@ const Habits: NextPage = () => {
  : (
     <div style={styles}>
       <>
-      <Button onClick={() => toggleForm()} css={{width: 0, alignSelf: 'flex-end'}} shadow color="gradient">
-        Adicionar +
+      <Button onClick={() => toggleForm()} css={{width: 0, alignSelf: 'flex-end', flexShrink: 0}} shadow color="gradient">
+        {formVisible ? 'Cancelar x' : 'Adicionar +'}
         </Button>
         {formVisible && <HabitsForm setFormVisible={setFormVisible}/>}
         {habitsList?.map((habit): any => <HabitCard habit={habit}/>)}

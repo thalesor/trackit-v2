@@ -33,7 +33,8 @@ import 'dayjs/locale/pt-br';
     flex-direction: column;
     justify-content: center;
     margin-bottom: 40px;
-
+    flex-shrink: 0;
+   
     h1 {
        font-size: 23px;
        color: #126BA5;

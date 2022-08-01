@@ -28,6 +28,8 @@ const Today: NextPage = () => {
     height: '100%',
     width: '100%',
     padding: 20,
+    paddingBottom: 100,
+    overflow: 'scroll',
     gap: 10
   }
 

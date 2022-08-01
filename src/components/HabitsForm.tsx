@@ -1,6 +1,6 @@
-import type { NextComponentType, NextPage } from 'next';
+import type { NextComponentType } from 'next';
 import api from '../../services/api/api';
-import { Container, Card, Spacer, Input, Button, Link, Loading, Grid } from "@nextui-org/react";
+import { Container, Card, Spacer, Input, Button, Loading, Grid } from "@nextui-org/react";
 import React, { useState } from "react";
 import Form from 'components/Form';
 import useMessage from '../../hooks/useMessage';
@@ -30,7 +30,7 @@ const HabitsForm: NextComponentType = ({setFormVisible}: IHabitsFormProps) => {
   });
 
   const days = [1, 2, 3, 4, 5, 6, 7];
-  
+
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
@@ -83,10 +83,8 @@ const HabitsForm: NextComponentType = ({setFormVisible}: IHabitsFormProps) => {
     }
   }
 
-
-
   return (
-    <Card isHoverable css={{ padding:'5px 0', marginBottom: 30, marginTop: 10 }}>
+    <Card isHoverable css={{ padding:'5px 0', marginBottom: 30, marginTop: 10, flexShrink: 0 }}>
       {formSubmiting 
       ?
       <Container display='flex' justify='center' css={{height: 254}}>

@@ -12,7 +12,7 @@ export default function HabitCard({habit}: any) {
   const { deleteHabit } = useHabits();
 
   return  (
-  <Card css={{ padding: '15px', width: '100%', borderRadius: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}} color="primary" variant="bordered" isPressable>
+  <Card css={{ padding: '15px', width: '100%', borderRadius: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0}} color="primary" variant="bordered" isPressable>
         <Grid.Container css={{gap: 8}}>
         <HabitTitle>{habit.name}</HabitTitle>
           <Grid.Container css={{gap: 4}}>
