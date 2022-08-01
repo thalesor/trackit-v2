@@ -51,7 +51,7 @@ export function HabitsProvider({ children }: Props) {
   {
     const done = todayHabitsList?.filter(habit => habit.done);
     const percent = (Number(done?.length)/Number(todayHabitsList?.length))*100;
-    return percent;
+    return percent.toFixed(0);
   }
 
   return (
