@@ -7,21 +7,13 @@ import 'dayjs/locale/pt-br';
   export default function TodayProgress(){
     dayjs.locale('pt-br');
     const today = dayjs().format('dddd, DD/MM'); 
-    const { todayHabitsList, getTodayProgressPercent }= useHabits();
+    const { progressAmount }= useHabits();
 
-    const calculateTodayProgress = () =>
-    {
-        const percent = getTodayProgressPercent();
-        if(percent > 0)
-        return <h2>{percent}% dos hábitos foram concluídos!</h2>
-
-        return <h3>Nenhum hábito concluído ainda!</h3>;
-    }
-  
     return (
        <StyledCard isHoverable>
         <h1>Progresso de hoje, {today}</h1>
-        <h2>{calculateTodayProgress()}</h2>
+        <h2>{progressAmount > 1 ? <h2>{progressAmount}% dos hábitos foram concluídos</h2>
+        : <h3>Nenhum hábito foi concluído ainda</h3>}</h2>
         </StyledCard>
     )
   }

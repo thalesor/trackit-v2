@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import api, { createHabitsType, habitInstructionType, todayHabitsType } from "../services/api/api";
 import useAuth from '../hooks/useAuth';
 
@@ -9,7 +9,9 @@ interface IHabitsContext {
     fetchTodayHabitsData: () => void;
     deleteHabit: (id: number) => void;
     toggleHabitsData: (id: number, instruction: habitInstructionType) => void;
-    getTodayProgressPercent: () => number;
+    fetchTodayProgressPercent: () => void;
+    progressAmount: number;
+    setProgressAmount: (newprogress: number) => void;
 }
 
 export const HabitsContext = createContext<IHabitsContext | null>(null);
@@ -20,8 +22,13 @@ interface Props {
 
 export function HabitsProvider({ children }: Props) {
   const { authData } = useAuth();
+  const [progressAmount, setProgressAmount] = useState(0);
   const [habitsList, setHabitsList] = useState<createHabitsType[] | null>(null);
   const [todayHabitsList, setTodayHabitsList] = useState<todayHabitsType[] | null>(null);
+
+  useEffect(() => {
+    fetchTodayProgressPercent();
+  }, [habitsList, todayHabitsList])
 
   async function fetchHabitsData()
   {
@@ -47,15 +54,16 @@ export function HabitsProvider({ children }: Props) {
     await fetchHabitsData();
   }
 
-  function getTodayProgressPercent()
+  async function fetchTodayProgressPercent()
   {
     const done = todayHabitsList?.filter(habit => habit.done);
     const percent = (Number(done?.length)/Number(todayHabitsList?.length))*100;
-    return percent.toFixed(0);
+    await setProgressAmount(+percent.toFixed(0));
   }
 
   return (
-    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, deleteHabit, toggleHabitsData, getTodayProgressPercent}}>
+    <HabitsContext.Provider value={{todayHabitsList, habitsList, fetchTodayHabitsData, fetchHabitsData, deleteHabit, toggleHabitsData, fetchTodayProgressPercent, progressAmount, setProgressAmount
+    }}>
       {children}
     </HabitsContext.Provider>
   );

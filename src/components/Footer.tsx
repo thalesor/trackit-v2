@@ -4,11 +4,12 @@ import useHabits from "../../hooks/useHabits";
 import SpeedometerComponent from './ProgressSpeedometer';
 
   export default function Footer(){
-    const { getTodayProgressPercent } = useHabits();
+    const { progressAmount } = useHabits();
     const router = useRouter();
+    
     const calculateProgressColor = () =>
     {
-      const percent = getTodayProgressPercent();
+      const percent = progressAmount;
       if(percent <= 35)
       return 'red';
       else if(percent > 35 && percent <= 65)
